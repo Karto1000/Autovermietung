@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rect
+
+actor "Admin" as admin
+actor "User" as user
+actor "Firm" as firm
+
+rectangle "Places" {
+    usecase (Add Place) as add_place
+    usecase (Edit Place) as edit_place
+    usecase (Delete Place) as delete_place
+    usecase (View Place) as view_place
+
+    usecase "Login" as login
+
+    add_place ..> login : <<include>>
+    edit_place ..> login : <<include>>
+    delete_place ..> login : <<include>>
+    view_place ..> login : <<include>>
+}
+
+' Admin
+admin --> add_place
+admin --> edit_place
+admin --> delete_place
+admin --> view_place
+
+' User
+user --> view_place
+
+' Firm
+firm --> view_place
+
+@enduml

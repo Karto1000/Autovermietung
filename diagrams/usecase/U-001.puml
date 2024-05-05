@@ -1,0 +1,40 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rect
+
+actor "Firm" as firm
+actor "Customer" as customer
+
+rectangle "Cars" {
+    usecase "Create rentable Car" as rent_out
+    usecase "Rent a Car" as rent
+    usecase "Login" as login
+    usecase "Edit Car" as edit
+    usecase "Delete Car" as delete
+    usecase "Search for Car" as search
+
+    usecase "Send confirmation message" as send_confirmation
+
+    rent_out ..> login : <<includes>>
+    rent ..> login : <<includes>>
+    edit ..> login : <<includes>>
+    delete ..> login : <<includes>>
+    search ..> login : <<includes>>
+}
+
+' Firm
+firm --> rent_out
+firm --> edit
+firm --> delete
+firm --> search
+
+' Customer
+customer --> rent
+customer --> search
+
+' Confirmation
+rent <.. send_confirmation : <<extends>>
+
+@enduml

@@ -1,0 +1,71 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+entity firm {
+    🔑 id INT
+    ■ name VARCHAR
+    ■ place_id INT
+    ■ user_id INT
+}
+
+entity permission {
+    🔑 id INT
+    ■ name VARCHAR
+}
+
+entity role_permission {
+    🔑 role_id INT
+    🔑 permission_id INT
+}
+
+entity role {
+    🔑 id INT
+    ■ name VARCHAR
+}
+
+entity user {
+    🔑 email VARCHAR
+    ■ name VARCHAR
+    ■ password VARCHAR
+    ■ salt VARCHAR
+    ■ role_id INT
+}
+
+entity car {
+    🔑 id INT
+    ■ brand VARCHAR
+    ■ model VARCHAR
+    ■ firm_id INT
+    ■ price_per_hour DECIMAL
+    □ picture BLOB
+}
+
+entity place {
+    🔑 id INT
+    ■ name VARCHAR
+    ■ plz INT
+}
+
+entity rent {
+    🔑 user_id INT
+    🔑 car_id INT
+    ■ start INT
+    ■ end INT
+}
+
+firm }..|| place
+
+role_permission }..|| role
+role_permission }..|| permission
+
+user }..|| role
+
+car }..|| firm
+
+rent }.|| user
+rent ||.|| car
+
+firm ||..|| user
+
+
+@enduml

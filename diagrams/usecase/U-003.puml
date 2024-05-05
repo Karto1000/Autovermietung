@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rect
+
+actor "Admin" as admin
+actor "User" as user
+actor "Firm" as firm
+
+rectangle "Firms" {
+    usecase "View Firms" as view_firms
+    usecase "Add Firm" as add_firm
+    usecase "Delete Firms" as delete_firm
+
+    usecase "Login" as login
+
+    login <.. add_firm : <<extends>>
+
+    view_firms ..> login : <<includes>>
+    delete_firm ..> login : <<includes>>
+}
+
+' Admin
+admin --> view_firms
+admin --> delete_firm
+
+' Firm
+firm --> add_firm : "Create new Firm User"
+firm --> delete_firm : "Delete Own Firm"
+
+' User
+user --> view_firms
+
+@enduml

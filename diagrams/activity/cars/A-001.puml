@@ -1,0 +1,44 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+' Rent a Car
+partition Frontend {
+    start
+    :Firm User clicks on "Rent Out A Car";
+    :System displays a form for the firm user to fill out;
+    :Firm User fills out the form;
+    :Firm User clicks on "Submit";
+
+    if (Form is valid) then (no)
+        :System displays an error message;
+        stop
+    else (yes)
+        :Send Request;
+    endif
+
+    fork
+        while (Response) is (not received)
+            :System displays a loading spinner;
+        endwhile (received)
+    fork again
+        partition Backend {
+            start
+            if (Is JWT Valid and Is Firm User) then (yes)
+                if (Is Form Valid) then (yes)
+                    :System saves the form to the database;
+                    stop
+                else (no)
+                    :System returns 400 Bad Request;
+                    stop
+                endif
+            else (no)
+                :System returns 401 Unauthorized;
+                stop
+            endif
+        }
+    end fork
+}
+
+stop
+
+@enduml

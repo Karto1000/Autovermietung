@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rect
+
+actor "User" as user
+actor "Firm" as firm
+
+rectangle "Rentals" {
+    usecase "Cancel Rental" as cancel
+    usecase "View Rentals" as view
+
+    usecase "Login" as login
+
+    cancel ..> login : <<include>>
+    view ..> login : <<include>>
+}
+
+' Firm
+firm --> cancel
+firm --> view : View rentals of firm
+
+' User
+user --> cancel
+user --> view : View current rentals
+
+@enduml
