@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+title Edit Car
+
+|Frontend|
+start
+
+:Firm User Navigates to Cars Page;
+:Firm User Selects Car to Edit;
+:Firm User Clicks Edit Button;
+:System shows form of selected car;
+:Firm User edits fields;
+:Firm User clicks on save;
+:System shows confirmation message;
+
+if (Firm User Confirms) then (Yes)
+    :Send PUT Request;
+
+    |Backend|
+
+    :Receive Request;
+
+    if (Is User Authorized?) then (Yes)
+        if (Does Car Exist?) then (Yes)
+            :Edit Car;
+
+            if (Is Edit Successful?) then (Yes)
+                :Create Success Response;
+                (A)
+                detach
+            else (No)
+                :Create Error Response;
+                (A)
+                detach
+            endif
+        else (No)
+            :Create Error Response;
+            (A)
+            detach
+        endif
+    else (No)
+        :Create Error Response;
+        (A)
+        detach
+    endif
+
+    (A)
+
+    note right
+        Send the response that was created in the previous step
+    end note
+
+    :Send Received Response;
+
+    |Frontend|
+
+    switch (ResponseType?)
+    case (Success)
+        :Show Success Message;
+        stop
+    case (Error)
+        :Show Error Message;
+        stop
+    endswitch
+
+else (No)
+    |Frontend|
+stop
+
+endif
+
+@enduml

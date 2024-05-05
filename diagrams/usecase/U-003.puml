@@ -9,7 +9,7 @@ actor "User" as user
 actor "Firm" as firm
 
 rectangle "Firms" {
-    usecase "View Firms" as view_firms
+    usecase "Search for Firm" as view_firms
     usecase "Add Firm" as add_firm
     usecase "Delete Firms" as delete_firm
 

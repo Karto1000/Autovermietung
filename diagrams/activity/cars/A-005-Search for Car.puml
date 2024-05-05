@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+title Search for Car
+
+partition Frontend {
+    start
+
+    :User Navigates to Cars Page;
+    :User clicks on search field;
+
+    note left
+        The following while loop represents a debounce
+    end note
+
+    while (Is Focused)
+        :User types letter;
+
+        if (delay between > 100 milliseconds) then (Yes)
+            :Send Get request;
+            (B)
+            :Set cars to received cars from B;
+        else (No)
+
+        endif
+    endwhile (End Focus)
+
+    stop
+}
+
+partition Backend {
+    (B)
+    :Receive Request;
+
+    if (Is User Authorized?) then (Yes)
+        :Get query from response;
+        :Run search operation;
+        :Set response to found cars;
+        (A)
+        detach
+    else (No)
+        :Create Error Response;
+        (A)
+        detach
+    endif
+
+    (A)
+
+    note right
+        Send the response that was created in the previous step
+    end note
+
+    :Send Received Response;
+}
+
+@enduml

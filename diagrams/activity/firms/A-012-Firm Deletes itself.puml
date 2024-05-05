@@ -1,0 +1,69 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+title Firm deletes self
+
+|Frontend|
+start
+
+:Firm User clicks on profile icon;
+:Firm User clicks on 'Delete Account';
+:System shows Confirmation Dialog;
+
+if (Firm User Confirms) then (Yes)
+    :Send DELETE Request;
+
+    |Backend|
+
+    :Receive Request;
+
+    if (Is User Authorized?) then (Yes)
+        if (Firm exists? && Firm wants to delete self?) then (Yes)
+            :Delete Firm;
+
+            if (Is Delete Successful?) then (Yes)
+                :Create Success Response;
+                (A)
+                detach
+            else (No)
+                :Create Error Response;
+                (A)
+                detach
+            endif
+        else (No)
+            :Create Error Response;
+            (A)
+            detach
+        endif
+    else (No)
+        :Create Error Response;
+        (A)
+        detach
+    endif
+
+    (A)
+
+    note right
+        Send the response that was created in the previous step
+    end note
+
+    :Send Received Response;
+
+    |Frontend|
+
+    switch (ResponseType?)
+    case (Success)
+        :Show Success Message;
+        :Token is removed from SessionStorage;
+        :Firm User is routed to login page;
+        stop
+    case (Error)
+        :Show Error Message;
+        stop
+    endswitch
+else (No)
+    |Frontend|
+stop
+
+endif
+
+@enduml

@@ -12,7 +12,7 @@ rectangle "Places" {
     usecase (Add Place) as add_place
     usecase (Edit Place) as edit_place
     usecase (Delete Place) as delete_place
-    usecase (View Place) as view_place
+    usecase (Search for Place) as view_place
 
     usecase "Login" as login
 

@@ -1,0 +1,66 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+title Create rentable Car
+
+|Frontend|
+start
+
+:Firm User Navigates to Rentals Page;
+:Firm User Selects Car to Rent out;
+:Firm User Clicks Rent out a new Car Button;
+:System shows form;
+:Firm User fills out form;
+:Firm User clicks on create;
+:System shows confirmation message;
+
+if (Firm User Confirms) then (Yes)
+    :Send POST request;
+
+    |Backend|
+
+    :Receive Request;
+
+    if (Is User Authorized?) then (Yes)
+        :Create new Car to rent out;
+
+        if (Is Operation Successful?) then (Yes)
+            :Create Success Response;
+            (A)
+            detach
+        else (No)
+            :Create Error Response;
+            (A)
+            detach
+        endif
+    else (No)
+        :Create Error Response;
+        (A)
+        detach
+    endif
+
+    (A)
+
+    note right
+        Send the response that was created in the previous step
+    end note
+
+    :Send Received Response;
+
+    |Frontend|
+
+    switch (ResponseType?)
+    case (Success)
+        :Show Success Message;
+        stop
+    case (Error)
+        :Show Error Message;
+        stop
+    endswitch
+
+else (No)
+    |Frontend|
+stop
+
+endif
+
+@enduml

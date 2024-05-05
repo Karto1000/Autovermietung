@@ -9,7 +9,7 @@ actor "Firm" as firm
 
 rectangle "Rentals" {
     usecase "Cancel Rental" as cancel
-    usecase "View Rentals" as view
+    usecase "Search for Rental" as view
 
     usecase "Login" as login
 

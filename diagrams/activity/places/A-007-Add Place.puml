@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+title Add Place
+
+|Frontend|
+start
+
+:Admin User Navigates to Places Page;
+:Admin User Clicks on 'Create Place' Button;
+:System shows form;
+:Admin User fills out form;
+:Admin User clicks on save;
+:System Shows Confirmation Dialog;
+
+if (Admin User Confirms) then (Yes)
+    :Send POST Request;
+
+    |Backend|
+
+    :Receive Request;
+
+    if (Is User Authorized?) then (Yes)
+        :Create Place;
+
+        if (Is Create Successful?) then (Yes)
+            :Create Success Response;
+            (A)
+            detach
+        else (No)
+            :Create Error Response;
+            (A)
+            detach
+        endif
+    else (No)
+        :Create Error Response;
+        (A)
+        detach
+    endif
+
+    (A)
+
+    note right
+        Send the response that was created in the previous step
+    end note
+
+    :Send Received Response;
+
+    |Frontend|
+
+    switch (ResponseType?)
+    case (Success)
+        :Show Success Message;
+        stop
+    case (Error)
+        :Show Error Message;
+        stop
+    endswitch
+
+else (No)
+    |Frontend|
+stop
+
+endif
+
+@enduml

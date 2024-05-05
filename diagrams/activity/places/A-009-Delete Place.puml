@@ -1,0 +1,69 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+title Delete Place
+
+|Frontend|
+start
+
+:Admin User navigates to Places Page;
+:Admin selects place to Delete;
+:System shows Confirmation Dialog;
+
+if (Admin User Confirms) then (Yes)
+    :Send DELETE Request;
+
+    |Backend|
+
+    :Receive Request;
+
+    if (Is User Authorized?) then (Yes)
+        if (Place exists?) then (Yes)
+            :Delete Place;
+            :Set the place of firms which reference it to null;
+
+            if (Is Delete Successful?) then (Yes)
+                :Create Success Response;
+                (A)
+                detach
+            else (No)
+                :Create Error Response;
+                (A)
+                detach
+            endif
+        else (No)
+            :Create Error Response;
+            (A)
+            detach
+        endif
+    else (No)
+        :Create Error Response;
+        (A)
+        detach
+    endif
+
+    (A)
+
+    note right
+        Send the response that was created in the previous step
+    end note
+
+    :Send Received Response;
+
+    |Frontend|
+
+    switch (ResponseType?)
+    case (Success)
+        :Show Success Message;
+        stop
+    case (Error)
+        :Show Error Message;
+        stop
+    endswitch
+
+else (No)
+    |Frontend|
+stop
+
+endif
+
+@enduml
