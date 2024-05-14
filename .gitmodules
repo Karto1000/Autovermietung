@@ -1,0 +1,6 @@
+[submodule "Autovermietung-API"]
+	path = Autovermietung-API
+	url = https://github.com/Karto1000/Autovermietung-API
+[submodule "Autovermietung-UI"]
+	path = Autovermietung-UI
+	url = https://github.com/Karto1000/Autovermietung-UI
