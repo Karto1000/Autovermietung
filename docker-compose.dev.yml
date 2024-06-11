@@ -1,4 +1,12 @@
 services:
+  database:
+    container_name: autovermietung-db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: autovermietung
+    ports:
+      - "3306:3306"
   frontend:
     container_name: autovermietung-ui
     build:
@@ -18,20 +26,13 @@ services:
       context: ./autovermietung-api
       dockerfile: Dockerfile
     environment:
-      - DB_URL=jdbc:mysql://autovermietung-db:3306/
+      - DB_URL=jdbc:mysql://autovermietung-db:3306/autovermietung
       - DB_USERNAME=root
       - DB_PASSWORD=root
+      - WAIT_HOSTS=autovermietung-db:3306
     ports:
       - "8080:8080"
     expose:
       - "8080"
     volumes:
       - ./autovermietung-api:/app
-  database:
-    container_name: autovermietung-db
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mydb
-    ports:
-      - "3306:3306"
